@@ -129,23 +129,23 @@ LiquidCrystal_I2C lcd(LCD_ADDR, 20, 4);
 #include <microDS3231.h>
 MicroDS3231 rtc;
 
-// bme
-#if (USE_BME == 1)
-#include <GyverBME280.h>
-GyverBME280 bme;
-#endif
+// // bme
+// #if (USE_BME == 1)
+// #include <GyverBME280.h>
+// GyverBME280 bme;
+// #endif
 
-#if (USE_ADAFRUIT_SENSOR == 1)
+// #if (USE_ADAFRUIT_SENSOR == 1)
 
-#include <Adafruit_Sensor.h>
-#include <Adafruit_AHTX0.h>
-#include <Adafruit_BMP280.h>
+// #include <Adafruit_Sensor.h>
+// #include <Adafruit_AHTX0.h>
+// #include <Adafruit_BMP280.h>
 
-// Create sensor instances
-Adafruit_AHTX0 aht;
-Adafruit_BMP280 bmp; // Default I2C address is 0x77
+// // Create sensor instances
+// Adafruit_AHTX0 aht;
+// Adafruit_BMP280 bmp; // Default I2C address is 0x77
 
-#endif
+// #endif
 
 #if (DALLAS_SENS1 == 1)
 #include <microDS18B20.h>
@@ -162,10 +162,10 @@ MicroDS18B20 dallas(SENS_1);
 DHT dht(SENS_2, DHT_TYPE);
 #endif
 
-#if (USE_HTU21D == 1)
-#include <microHTU21D.h>
-HTU21D myHTU21D(HTU21D_RES_RH12_TEMP14);
-#endif
+// #if (USE_HTU21D == 1)
+// #include <microHTU21D.h>
+// HTU21D myHTU21D(HTU21D_RES_RH12_TEMP14);
+// #endif
 
 #if (USE_BMP280 == 1)
 #include <BMP280.h>
@@ -347,12 +347,12 @@ channelsStruct activeChannel, setChannel;
 
 uint32_t timerMillis[10];       // milisecond counter
 
-uint32_t driveTimer;
-byte driveState;
-boolean lastDriveState;
-boolean manualControl;
-boolean manualPos;
-boolean controlState;
+extern uint32_t driveTimer;
+extern byte driveState;
+extern boolean lastDriveState;
+extern boolean manualControl;
+extern boolean manualPos;
+extern boolean controlState;
 
 const byte PIDchs[] = {0, 1, 2, 3, 7, 8, 9};
 const byte channelToPWM[] = {0, 1, 2, 3, 0, 0, 0, 4, 5, 6};  // channel to pwm

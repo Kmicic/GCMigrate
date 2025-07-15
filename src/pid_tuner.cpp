@@ -1,3 +1,5 @@
+#include "a0_data.h"
+
 #if (PID_AUTOTUNE == 1)
 // relay
 #define P_PI 0.4f

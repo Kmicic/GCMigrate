@@ -1,3 +1,6 @@
+#include "a0_data.h"
+#include "sensors.h"
+
 // заполнение массива значений с датчиков
 // здесь можно прописать свой датчик!
 void getAllData() {

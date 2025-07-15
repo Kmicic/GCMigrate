@@ -1,3 +1,8 @@
+#include "a0_data.h"
+#include "arrowcontrol.h"
+#include <Arduino.h>
+
+
 void drawArrow() {
   if (currentChannel >= 0 && currentChannel < 10) {
     // ----------------- НАСТРОЙКИ КАНАЛОВ -----------------
@@ -162,6 +167,7 @@ void drawArrow() {
 void smartArrow(bool state) {  // рисует стрелку, галку или пробел
   lcd.write(state ? (controlState ? 62 : 126) : 32);
 }
+
 
 void arrow(byte col, byte row) {
   lcd.setCursor(col, row);

@@ -1,3 +1,5 @@
+#include "a0_data.h"
+
 void serviceTick() {
   if (millis() - commonTimer > 500) {
     commonTimer = millis();

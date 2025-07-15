@@ -1,3 +1,5 @@
+#include "a0_data.h"
+
 #if (USE_DRIVE == 1)
 void driveTick() {
   channelsStruct temp = loadChannel(9);

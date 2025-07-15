@@ -1,3 +1,7 @@
+#include "a0_data.h"
+#include "menu.h"
+#include "redrawScreen.h"
+
 void initHardware() {
 #if (WDT_ENABLE == 1)
   wdt_disable();
@@ -190,7 +194,6 @@ void backlOn() {
   backlTimer = millis();
   lcd.backlight();
 }
-
 
 void backlTick() {
   if (backlState && settings.backlight && millis() - backlTimer >= (long)settings.backlTime * 1000) {

@@ -1,3 +1,9 @@
+#include "a0_data.h"
+#include <Arduino.h>
+#include "automatics.h"
+
+
+
 void timersTick() {   // каждую секунду
   // получаем время
   realTime[0] = rtc.getHours();
@@ -279,6 +285,9 @@ void checkDawn(byte curChannel) {
   }
 #endif
 }
+
+// Number of days in each month (non-leap year)
+// const uint8_t daysMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
 void getDay() {
   uint16_t days = rtc.getDate();

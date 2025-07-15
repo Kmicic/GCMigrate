@@ -1,3 +1,16 @@
+#include "a0_data.h"
+#include "a4_func.h"
+#include "sensors.h"
+#include "service.h"
+#include "automatics.h"
+#include "redrawScreen.h"
+#include "pid.h"
+
+// Forward declarations for missing functions
+
+void controlTick();
+
+
 // -------------------- LOOP ---------------------
 void loop() {
   customLoop();       // вызов блока своих функций (вкладка custom)

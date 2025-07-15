@@ -1,3 +1,5 @@
+#include "pid.h"
+
 void checkPID() {
 #if (USE_PID == 1)
   for (byte i = 0; i < PID_CH_AMOUNT; i++) {

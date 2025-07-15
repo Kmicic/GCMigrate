@@ -1,41 +1,5 @@
-#ifndef ENCMINIM_H
-#define ENCMINIM_H
-#endif
-
-#pragma once
-#define _ME_ENC_FAST 30
-#define _ME_BUTTON_DEB 80
-#define _ME_BUTTON_HOLD 2000
-
-class encMinim
-{
-  public:
-    encMinim(uint8_t clk, uint8_t dt, int8_t sw, boolean dir, boolean type = 0);
-    void tick(bool hold = false);
-    boolean isClick();
-    boolean isHolded();
-    boolean isTurn();
-    boolean isRight();
-    boolean isLeft();
-    boolean isRightH();
-    boolean isLeftH();
-    boolean isFast();
-
-    // 0 - nothing, 1 - left, 2 - right, 3 - rightPressed, 4 - leftPressed, 5 - click, 6 - held
-    byte getState();
-
-    // reset state
-    void rst();
-
-  private:
-    int8_t _clk, _dt, _sw;
-    volatile bool _fast = false;
-    volatile boolean _swState, _swFlag, _turnState, _holdFlag;
-    volatile byte _state, _lastState, _encState;
-    volatile bool _resetFlag = false;
-    volatile uint32_t _debTimer;
-    // _encState: 0 - nothing, 1 - left, 2 - right, 3 - rightPressed, 4 - leftPressed, 5 - click, 6 - held
-};
+#include "encMinim.h"
+#include <Arduino.h>
 
 encMinim::encMinim(uint8_t clk, uint8_t dt, int8_t sw, boolean dir, boolean type) {
   if (dir) {
@@ -103,6 +67,7 @@ void encMinim::tick(bool hold) {
     _swFlag = false;
   }
 }
+
 
 byte encMinim::getState() {
   return _encState;

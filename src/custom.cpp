@@ -1,3 +1,5 @@
+#include "a0_data.h"
+
 /*
   На данной вкладке можно вручную дописать контроллеру дополнительные возможности.
   - Можно использовать пины D1, D4, D5, D6, D7, D8, D9 как цифровые ВЫХОДЫ и ВХОДЫ
@@ -11,7 +13,6 @@ boolean chkTimer (unsigned long &startTime, unsigned long loopTime)
         return true;  }                
   else return false;  
 }
-
 
 void customSetup() {
 timerMillis[0] = millis();

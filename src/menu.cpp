@@ -1,3 +1,11 @@
+#include "a0_data.h"
+#include "a1_data.h"
+#include "redrawScreen.h"
+#include "arrowcontrol.h"
+#include "service.h"
+#include "menu.h"
+
+
 void incr(boolean* val, int incr) {
   if (incr == 1) *val = true;
   else *val = false;

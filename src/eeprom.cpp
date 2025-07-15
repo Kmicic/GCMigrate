@@ -1,3 +1,5 @@
+#include "a0_data.h"
+
 void clearEEPROM() {
   for (int i = 0; i < 1023; i++) {
     EEPROM.write(i, 0);

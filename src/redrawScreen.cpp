@@ -1,3 +1,7 @@
+#include "a0_data.h"
+#include "arrowcontrol.h"
+#include "redrawScreen.h"
+
 void printDash() {
   lcd.print('-');
 }
@@ -23,6 +27,7 @@ void clearLine() {
     lcd.print(' ');
   }
 }
+
 void clearLine2(byte row) {
   lcd.setCursor(0, row);
   for (byte i = 0; i < 20; i++) {
@@ -651,8 +656,13 @@ void redrawMainSettings() {
       lcd.print(settingsPageNames[index]);
       spaceColon();
       switch (index) {
-        case 0: if (settings.backlight) printOn();
-          else printOff(); break;
+        case 0: 
+          if (settings.backlight) {
+            printOn();
+          } else {
+            printOff();
+          }
+          break;
         case 1: lcd.print(settings.backlTime); break;
         case 2: lcd.print(settings.drvSpeed); break;
         case 3: lcd.print(rtc.getDate()); break;

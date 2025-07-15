@@ -1,4 +1,8 @@
-
+#include "a0_data.h"
+#include "arrowcontrol.h"
+#include "redrawScreen.h"
+#include "a4_func.h"
+#include "custom.h"
 
 void setup() {
 Serial.begin(9600);
