@@ -3,7 +3,7 @@
 void serviceTick() {
   if (millis() - commonTimer > 500) {
     commonTimer = millis();
-    // управляем реле
+    
     for (byte i = 0; i < 7; i++) {
       digitalWrite(relayPins[i], channelStatesServ[i]);
     }
@@ -13,7 +13,7 @@ void serviceTick() {
     if (SERVO2_RELAY) {
       digitalWrite(SERVO_1, channelStatesServ[8]);
     }
-    // управляем серво
+    
 #if (SERVO1_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
     servo1.setTargetDeg(servoPosServ[0]);
@@ -32,7 +32,7 @@ void serviceTick() {
   }
 }
 
-void serviceIN() {    // выполняем при входе в сервис
+void serviceIN() {    
 #if (SERVO1_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
   servo1.start();
@@ -61,12 +61,12 @@ void serviceIN() {    // выполняем при входе в сервис
   realTime[2] = rtc.getSeconds();
 }
 
-void serviceOUT() {   // выполняем при выходе с сервиса
+void serviceOUT() {   
   serviceFlag = false;
   startFlagDawn = true;
 #if (START_MENU == 0)
   for (byte i = 0; i < 7; i++) {
-    if (loadChannel(i).state) digitalWrite(relayPins[i], channelStates[i]); // вернуть реле на места
+    if (loadChannel(i).state) digitalWrite(relayPins[i], channelStates[i]); 
   }
 
 #if (SERVO1_RELAY == 1)
@@ -77,7 +77,7 @@ void serviceOUT() {   // выполняем при выходе с сервис�
 #endif
 
 #if (USE_DAWN == 1)
-  // шим - рассвет
+  
   if (loadChannel(2).mode == 5) {
     analogWrite(RELAY_2, pwmVal[2]);
   }
@@ -86,7 +86,7 @@ void serviceOUT() {   // выполняем при выходе с сервис�
   }
 #endif
 
-  // вернуть серво на места
+  
 #if (SERVO1_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
   if (!loadChannel(7).state) servo1.stop();
@@ -108,7 +108,7 @@ void serviceOUT() {   // выполняем при выходе с сервис�
 #endif
 
 #if (USE_DRIVE == 1)
-  // вернуть привод если он менял положение
+  
   if (channelStatesServ[9] != channelStates[9])
     driveState = 1;
 #endif

@@ -26,7 +26,7 @@ void clearEEPROM() {
   EEPROM.put(EEPR_PLOT_H, sensMinute);
 
 #if (SCHEDULE_NUM > 0)
-  for (byte i = 0; i < 2; i++) {     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  for (byte i = 0; i < 2; i++) {     
     EEPROM.put(i * EEPR_SHED_STEP + EEPR_SHED, activeSchedule);
   }
 #endif

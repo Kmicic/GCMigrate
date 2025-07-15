@@ -3,7 +3,7 @@
 #include "a0_data.h"
 #include "a1_data.h"
 
-boolean backlState = true;  // состояние подсветки
+boolean backlState = true;  
 
 
 
@@ -13,7 +13,7 @@ bool startService = false;
 #endif
 
 #if (USE_PLOTS == 1 || USE_PID == 1 || USE_DAWN == 1)
-// graphics
+
 const char row8[] PROGMEM = {0b11111,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111};
 const char row7[] PROGMEM = {0b00000,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111};
 const char row6[] PROGMEM = {0b00000,  0b00000,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111,  0b11111};
@@ -24,7 +24,7 @@ const char row2[] PROGMEM = {0b00000,  0b00000,  0b00000,  0b00000,  0b00000,  0
 const char row1[] PROGMEM = {0b00000,  0b00000,  0b00000,  0b00000,  0b00000,  0b00000,  0b00000,  0b11111};
 #endif
 
-// co2
+
 #if (USE_CO2 == 1)
 #if (CO2_PIN == 1)
 #define CO2_PIN_NAME SENS_1
@@ -48,7 +48,7 @@ void CO2tick() {
       }
     } else {
       if (CO2_flag) {
-        // protection against measurement after display
+        
         if (!CO2_rst) {
           tmr = millis() - tmr;
           CO2ppm = (CO2_MAX / 1000) * (tmr - 2);
@@ -197,8 +197,8 @@ const char *sensorNames[]  = {
 };
 
 
-byte curPWMchannel = 0; // текущий канал ШИМ
-byte curSetMode = 0;   // текущий режим настроек  
+byte curPWMchannel = 0; 
+byte curSetMode = 0;   
 
 boolean startPID = false;
 float uptime = 0;
@@ -207,3 +207,10 @@ const int PWMperiod = (float)1000 / PWM_RELAY_HZ;
 
 LiquidCrystal_I2C lcd(LCD_ADDR, 20, 4);
 encMinim enc(CLK, DT, SW, true, false);
+boolean controlState = false;  // true - control, false - read
+
+// #if (USE_AHT20 == 1)
+// #include <AHT20.h>
+// AHT20 aht20;
+// #endif  
+

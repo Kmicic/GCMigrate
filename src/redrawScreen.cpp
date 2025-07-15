@@ -56,28 +56,28 @@ void drawPlot(int *plot_array) {
   lcd.setCursor(0, 2); lcd.print('>'); lcd.print(plot_array[14] / 7.0, 1);
   lcd.setCursor(0, 3); lcd.print(min_value, 1);
 
-  for (byte i = 0; i < 15; i++) {                  // каждый столбец параметров
+  for (byte i = 0; i < 15; i++) {                  
     float thisVal = plot_array[i] / 7.0;
     int fill_val = thisVal;
     fill_val = constrain(fill_val, min_value, max_value);
     byte infill, fract;
-    // найти количество целых блоков с учётом минимума и максимума для отображения на графике
+    
     if (thisVal > min_value)
       infill = floor((float)(thisVal - min_value) / (max_value - min_value) * 4 * 10);
     else infill = 0;
-    fract = (float)(infill % 10) * 8 / 10;                   // найти количество оставшихся полосок
+    fract = (float)(infill % 10) * 8 / 10;                   
     infill = infill / 10;
 
-    for (byte n = 0; n < 4; n++) {            // для всех строк графика
-      if (n < infill && infill > 0) {         // пока мы ниже уровня
-        lcd.setCursor(5 + i, (3 - n));        // заполняем полными ячейками
+    for (byte n = 0; n < 4; n++) {            
+      if (n < infill && infill > 0) {         
+        lcd.setCursor(5 + i, (3 - n));        
         lcd.write(0);
       }
-      if (n >= infill) {                      // если достигли уровня
+      if (n >= infill) {                      
         lcd.setCursor(5 + i, (3 - n));
-        if (fract > 0) lcd.write(fract);      // заполняем дробные ячейки
-        else lcd.write(16);                   // если дробные == 0, заливаем пустой
-        for (byte k = n + 1; k < 4; k++) {    // всё что сверху заливаем пустыми
+        if (fract > 0) lcd.write(fract);      
+        else lcd.write(16);                   
+        for (byte k = n + 1; k < 4; k++) {    
           lcd.setCursor(5 + i, (3 - k));
           lcd.write(16);
         }
@@ -152,23 +152,23 @@ void redrawTuner() {
 #endif
 
 void redrawChannels() {
-  // вывод иmени канала
+  
 
   if (currentLine == 0 || currentLine == 4) {
     lcd.setCursor(1, 0);
     lcd.print(channelNames[currentChannel]);
 #if (USE_PID_RELAY == 1)
-    if (currentChannel <= 3) lcd.write(42); // звёздочка
+    if (currentChannel <= 3) lcd.write(42); 
 #else
-    if (currentChannel == 2 || currentChannel == 3) lcd.write(42); // звёздочка
+    if (currentChannel == 2 || currentChannel == 3) lcd.write(42); 
 #endif
-    // вывод состояния
+    
     lcd.setCursor(15, 0);
     if (setChannel.state) printOn();
     else printOff();
   }
 
-  // вывод настроек
+  
   if (setChannel.state) {
     byte curMode;
     if (currentChannel < 7) curMode = 0;
@@ -241,7 +241,7 @@ void redrawChannels() {
 
 void redrawSettings() {
   byte curSetMode = setChannel.mode;
-  byte curPWMchannel = channelToPWM[currentChannel];
+  curPWMchannel = channelToPWM[currentChannel];
   if (curSetMode < 4) {
     if (currentLine == 4) printName();
     if (currentLine == 1 || currentLine == 4) {
@@ -339,7 +339,7 @@ void redrawSettings() {
           lcd.print((int)(sensorVals[setChannel.sensor]));;
           
 #if (DEBUG_ENABLE==1)
-          Serial.print("setChannel.sensor ="); Serial.println(setChannel.sensor); // ToDo Debug
+          Serial.print("setChannel.sensor ="); Serial.println(setChannel.sensor); 
 #endif            
 
 
@@ -356,7 +356,7 @@ void redrawSettings() {
           lcd.print(modeSettingsNames[2]); spaceColon();
           if (setChannel.period > 0) {
             long period = setChannel.period - (millis() - timerMillis[currentChannel]) / 1000L;
-            byte leftH = floor((long)period / 3600);    // секунды в часы
+            byte leftH = floor((long)period / 3600);    
             byte leftM = floor((period - (long)leftH * 3600) / 60);
             byte leftS = period - (long)leftH * 3600 - leftM * 60;
 
@@ -402,9 +402,9 @@ void redrawSettings() {
 #endif
       }
     }
-  } else {    // для пид и рассвет
+  } else {    
     currentLine = 0;
-    byte thisAmount;  // количество строк
+    byte thisAmount;  
     if (curSetMode == 4) thisAmount = PID_SET_AMOUNT;
     else if (curSetMode == 5) thisAmount = DAWN_SET_AMOUNT;
 
@@ -418,15 +418,15 @@ void redrawSettings() {
     if (arrowPos == 1) arrow(14, 0);
     else space(14, 0);
 
-    for (byte i = 0; i < 4; i++) {  // для всех строк
+    for (byte i = 0; i < 4; i++) {  
       if (arrowPos <= 1 && i == 0) continue;
 
-      lcd.setCursor(0, i);          // курсор в начало
-      int8_t index = 4 * screenPos + i - 1; // минус для
-      smartArrow(arrowPos == 4 * screenPos + i + 1); // если курсор находится на выбранной строке
-      if (index >= thisAmount) break; // если пункты меню закончились, покидаем цикл for
+      lcd.setCursor(0, i);          
+      int8_t index = 4 * screenPos + i - 1; 
+      smartArrow(arrowPos == 4 * screenPos + i + 1); 
+      if (index >= thisAmount) break; 
 
-      // выводим имя и значение пункта меню
+      
       if (index >= 0) {
         if (curSetMode == 4) {
 #if (USE_PID == 1)
@@ -471,7 +471,7 @@ void printName() {
   lcd.setCursor(15, 0); lcd.print(F("Back"));
 }
 
-// позиции вывода первых двух датчиков
+
 #define POS_1 4
 #define POS_2 9
 
@@ -522,14 +522,14 @@ void redrawDebug() {
   }
   else printDash();
 
-  // 1 строка, датчики
-  // 1 влажн
+  
+  
   //clearLine2(1);
   lcd.setCursor(0, 1); lcd.print((int)(sensorVals[1])); lcd.write(37); printSpace();
 
   lcd.setCursor(POS_1, 1);
 #if (DALLAS_SENS1 == 1)
-  // 2 даллас
+  
 #if (DALLAS_AMOUNT > 1)
 
 #if (DALLAS_DISP == 0)
@@ -538,7 +538,7 @@ void redrawDebug() {
   static byte counter = 0;
   if (counter % 2 == 0) {
     lcd.print(counter / 2 + 1);
-    printSpace(); // костыль чтобы не рисовать значок градуса
+    printSpace(); 
     printSpace();
   }
   else lcd.print(dallasBuf[counter / 2], 1);
@@ -551,7 +551,7 @@ void redrawDebug() {
 #endif
 
 #else
-  // 2 аналог
+  
   lcd.print((int)sensorVals[2]);
 #endif
 
@@ -563,24 +563,24 @@ void redrawDebug() {
   // 3 dht
   lcd.setCursor(POS_2, 1);
 
-#if (DHT_SENS2 == 1)
-  printDash();
-#else
-  // 3 аналог или термистор
-  lcd.print((int)sensorVals[3]);
-#endif
+// #if (DHT_SENS2 == 1)
+//   printDash();
+// #else
+  
+//   lcd.print((int)sensorVals[3]);
+// #endif
 
 #if (THERM2 == 1)
   lcd.write(223);
 #endif
   printSpace();
-  // 4 аналог или термистор
+  
   lcd.setCursor(13, 1); lcd.print((int)sensorVals[4]);
 #if (THERM3 == 1)
   lcd.write(223);
 #endif
   printSpace();
-  // 5 аналог или термистор
+  
   lcd.setCursor(17, 1); lcd.print((int)sensorVals[5]);
 #if (THERM4 == 1)
   lcd.write(223);
@@ -598,11 +598,11 @@ void redrawDebug() {
 #if (USE_PID == 1 || USE_DAWN == 1)
       if (temp.mode == 4 || temp.mode == 5) {
         byte thisHeight;
-        thisHeight = round(pwmVal[i] / 32); // перевод 0-255 в 0-8
+        thisHeight = round(pwmVal[i] / 32); 
 
-        if (thisHeight == 0) lcd.write(32);   // пустой
-        else if (thisHeight < 8) lcd.write(thisHeight + 1); // половинки
-        else lcd.write(0);          // полный
+        if (thisHeight == 0) lcd.write(32);   
+        else if (thisHeight < 8) lcd.write(thisHeight + 1); 
+        else lcd.write(0);          
 
       } else
 #endif
@@ -616,7 +616,7 @@ void redrawDebug() {
   lcd.setCursor(15, 2); lcd.print(F("D:"));
   if (loadChannel(9).state) {
     if (loadChannel(9).mode != 4) lcd.print(lastDriveState);
-    else lcd.print(pwmVal[6]);    // выводим текущую величину задержки по ПИД
+    else lcd.print(pwmVal[6]);    
   }
   else printDash();
 
@@ -641,17 +641,17 @@ void redrawMainSettings() {
   if (lastScreen != screenPos) lcd.clear();
   lastScreen = screenPos;
 
-  for (byte i = 0; i < 4; i++) {  // для всех строк
-    int8_t index = 4 * screenPos + i - 1; // минус для SETTINGS
-    lcd.setCursor(0, i);          // курсор в начало
-    smartArrow(arrowPos == 4 * screenPos + i); // если курсор находится на выбранной строке
+  for (byte i = 0; i < 4; i++) {  
+    int8_t index = 4 * screenPos + i - 1; 
+    lcd.setCursor(0, i);          
+    smartArrow(arrowPos == 4 * screenPos + i); 
 
     if (screenPos == 0 && i == 0) lcd.print(F("SETTINGS"));
 
-    // если пункты меню закончились, покидаем цикл for
+    
     if (index >= SETTINGS_AMOUNT) break;
 
-    // выводим имя и значение пункта меню
+    
     if (index >= 0) {
       lcd.print(settingsPageNames[index]);
       spaceColon();
@@ -717,19 +717,19 @@ void redrawSchedule() {
   if (lastScreen != screenPos) lcd.clear();
   lastScreen = screenPos;
 
-  for (byte i = 0; i < 4; i++) {  // для всех строк
-    int8_t index = 4 * screenPos + i - 1; // минус
-    // если пункты меню закончились, покидаем цикл for
+  for (byte i = 0; i < 4; i++) {  
+    int8_t index = 4 * screenPos + i - 1; 
+    
 
     if (index >= 6 + setSchedule.pointAmount) break;
-    lcd.setCursor(0, i);          // курсор в начало
-    smartArrow(arrowPos == 4 * screenPos + i); // если курсор находится на выбранной строке
+    lcd.setCursor(0, i);          
+    smartArrow(arrowPos == 4 * screenPos + i); 
     if (screenPos == 0 && i == 0) {
       lcd.print(F("SCHEDULE "));
       lcd.print(schChannel + 1);
     }
 
-    // выводим имя и значение пункта меню
+    
     if (index >= 0 && index < 4) {
       lcd.print(schedulePageNames[index]);
       spaceColon();
@@ -826,14 +826,14 @@ void redrawService() {
     else lcd.print(F("CLOS"));
 
     lcd.setCursor(7, 3); lcd.print(F("S1:"));
-    if (SERVO1_RELAY) {   // если реле
+    if (SERVO1_RELAY) {   
       lcd.print(channelStatesServ[7]);
     } else {
       lcd.print((byte)(servoPosServ[0]));
     }
 
     lcd.setCursor(14, 3); lcd.print(("S2:"));
-    if (SERVO2_RELAY) {   // если реле
+    if (SERVO2_RELAY) {   
       lcd.print(channelStatesServ[8]);
     } else {
       lcd.print((byte)(servoPosServ[1]));
@@ -846,7 +846,7 @@ void redrawScreen() {
     lcd.clear();
   }
 
-  if (navDepth == 0) {            // корень меню
+  if (navDepth == 0) {            
     if (currentChannel == -3) redrawService();
     else if (currentChannel == -2) redrawMainSettings();
     else if (currentChannel == -1) redrawDebug();

@@ -7,12 +7,12 @@
 void setup() {
 Serial.begin(9600);
 
-//Serial.begin(9600);
-// char sbuff[50]; 
-// int8_t bval; 
-// #if (DEBUG_ENABLE == 1)
-// #include "GyverUART"
-// #endif
+
+
+
+
+
+
 
 #if (DEBUG_PID > 0)
 #if (PID_AUTOTUNE == 1)
@@ -28,9 +28,9 @@ Serial.begin(9600);
 
   boolean startupPress = false;
   initHardware();
-  // просто сброс настроек
+  
 #if (START_MENU == 0)
-  // сброс настроек
+  
   if (!digitalRead(SW)) {
     startupPress = true;
     lcd.setCursor(0, 0);
@@ -39,7 +39,7 @@ Serial.begin(9600);
   }
   while (!digitalRead(SW));
 #else
-  // стартовое меню
+  
   EEPROM.get(EEPR_SETTINGS, settings);
   if (!digitalRead(SW)) {
     drawStartMenu(0);
@@ -49,23 +49,23 @@ Serial.begin(9600);
 
 #endif
 
-  // ----- первый запуск или сброс -----
+  
   if (EEPROM.read(EEPR_KEY_ADDR) != EEPR_KEY || startupPress) {
-    clearEEPROM();  // сброс настроек
+    clearEEPROM();  
   }
-  EEPROM.get(EEPR_SETTINGS, settings);     // чтение настроек
-  applySettings();  // применение настроек
+  EEPROM.get(EEPR_SETTINGS, settings);     
+  applySettings();  
 
-  // ----- понеслась -----
-  currentChannel = -1;  // окно дебаг
+  
+  currentChannel = -1;  
   currentLine = 4;
   drawArrow();
   redrawScreen();
   disableABC();
-  customSetup();        // вызов кастомного блока инициализации (вкладка custom)
+  customSetup();        
 }
 
-ISR(INT0_vect) {        // External interrupt vectors
+ISR(INT0_vect) {        
   enc.tick(controlState);
 }
 

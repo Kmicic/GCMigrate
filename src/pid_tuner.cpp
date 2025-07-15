@@ -51,10 +51,10 @@ void tunePID() {
     }
 
     switch (workstate) {
-      case 0:   // ждём стабилизации значения
-        if (millis() - startTime >= tunerSettings.delay * 1000L) {    // ждём на всякий случай
+      case 0:   
+        if (millis() - startTime >= tunerSettings.delay * 1000L) {    
           startTime = millis();
-          if (abs(thisInput - lastInputWindow) < tunerSettings.window) {    // проверяем изменение значения за шаг
+          if (abs(thisInput - lastInputWindow) < tunerSettings.window) {    
             startTime = millis();
             workstate = 1;
             tuner.status = 1;
@@ -62,27 +62,27 @@ void tunePID() {
           lastInputWindow = thisInput;
         }
         break;
-      case 1:   // раскачиваем
-        if (millis() - startTime >= tunerSettings.delay * 1000L) { // ждём на всякий случай
+      case 1:   
+        if (millis() - startTime >= tunerSettings.delay * 1000L) { 
           startTime = millis();
-          steadyValue = thisInput;                // приняли значение как установившееся
+          steadyValue = thisInput;                
           tuner.max = steadyValue;
           tuner.min = steadyValue;
-          tuner.value = (tunerSettings.steady - tunerSettings.step);    // дёргаем вниз
+          tuner.value = (tunerSettings.steady - tunerSettings.step);    
           workstate = 2;
           tuner.status = 2;
         }
         break;
-      case 2:   // ждём и дёргаем вверх, т.е. раскачиваем систему!
+      case 2:   
         if (millis() - startTime >= tunerSettings.kickTime * 1000L) {
           startTime = millis();
-          tuner.value = (tunerSettings.steady + tunerSettings.step);    // дёргаем вверх
+          tuner.value = (tunerSettings.steady + tunerSettings.step);    
           workstate = 3;
           tuner.status = 3;
         }
         break;
-      case 3:   // анализируем качели
-        // анализ производной
+      case 3:   
+        
         float aver = 0;
         for (byte i = 0; i < BUF_SIZE - 1; i++) {
           aver += buf[i];
@@ -90,30 +90,30 @@ void tunePID() {
         aver /= (BUF_SIZE - 1);
         signalDirection = (aver < buf[BUF_SIZE - 1]) ? true : false;
 
-        if (!signalDirection) {             // значение падает
-          if (changeDir && !trigger) {      // верхняя точка
+        if (!signalDirection) {             
+          if (changeDir && !trigger) {      
             changeDir = false;
-            tuner.max = buf[BUF_SIZE - 2];  // предпоследнее берём
+            tuner.max = buf[BUF_SIZE - 2];  
           }
-          if (thisInput < steadyValue) {    // проскочили среднюю линию
+          if (thisInput < steadyValue) {    
             if (!trigger) {
               trigger = 1;
-              tuner.value = (tunerSettings.steady + tunerSettings.step);   // включили в +
+              tuner.value = (tunerSettings.steady + tunerSettings.step);   
               tuner.status = 3;
             }
           }
-        } else if (signalDirection) {       // значение растёт
-          if (!changeDir && trigger) {      // нижняя точка
+        } else if (signalDirection) {       
+          if (!changeDir && trigger) {      
             changeDir = true;
-            tuner.min = buf[BUF_SIZE - 2];  // предпоследнее берём
+            tuner.min = buf[BUF_SIZE - 2];  
           }
-          if (thisInput > steadyValue) {    // проскочили среднюю линию
+          if (thisInput > steadyValue) {    
             if (trigger) {
               trigger = 0;
-              tuner.value = (tunerSettings.steady - tunerSettings.step);   // включили в -
+              tuner.value = (tunerSettings.steady - tunerSettings.step);   
               tuner.status = 4;
 
-              // анализ времени цикла
+              
               tuner.cycle = millis() - startTime;
               startTime = millis();
               float Ku = 4.0f * tunerSettings.step / (tuner.max - tuner.min) / PI;

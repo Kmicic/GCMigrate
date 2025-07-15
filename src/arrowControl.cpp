@@ -5,7 +5,7 @@
 
 void drawArrow() {
   if (currentChannel >= 0 && currentChannel < 10) {
-    // ----------------- НАСТРОЙКИ КАНАЛОВ -----------------
+    
     if (navDepth == 0) {
       space(0, 0);
       space(14, 0);
@@ -43,10 +43,10 @@ void drawArrow() {
         arrow(15, 3);
       }
     } else {
-      // ------------- НАСТРОЙКИ РЕЖИМОВ (navDepth == 1) -------------
+      
       byte thisMode = setChannel.mode;
 #if (DEBUG_ENABLE==1)
-      Serial.print("This Mode ="); Serial.println(thisMode); // ToDo Debug
+      Serial.print("This Mode ="); Serial.println(thisMode); 
 #endif      
       if (thisMode < 4) {
         space(0, 0);
@@ -135,10 +135,10 @@ void drawArrow() {
   } else if (currentChannel == -1) {
     arrow(0, 0);
   } else if (currentChannel == -2) {
-    // ------------------ НАСТРОЙКИ -------------------
+    
 
   } else if (currentChannel == -3) {
-    // ------------------ SERVICE -------------------
+    
     space(0, 0); space(11, 0);
     colon(14, 0); colon(17, 0); space(0, 2);
     space(2, 2); space(4, 2); space(6, 2);
@@ -164,7 +164,7 @@ void drawArrow() {
   }
 }
 
-void smartArrow(bool state) {  // рисует стрелку, галку или пробел
+void smartArrow(bool state) {  
   lcd.write(state ? (controlState ? 62 : 126) : 32);
 }
 

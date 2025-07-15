@@ -2,14 +2,14 @@
 #define AUTOMATICS_H
 #include <Arduino.h>
 
-void timersTick();   // co sekundę
-void checkDawn(byte curChannel); // podświetlenie LCD
-byte checkHysteresis(byte channel); // проверка гистерезиса 
-void getDay(); // numer dnia  
-boolean checkDay(byte curChannel); // dzień tygodnia
+void timersTick();   
+void checkDawn(byte curChannel); 
+byte checkHysteresis(byte channel); 
+void getDay(); 
+boolean checkDay(byte curChannel); 
 
 #if (SCHEDULE_NUM > 0)
-void checkShedule(); // проверка расписания
+void checkShedule(); 
 #endif
 
 #endif

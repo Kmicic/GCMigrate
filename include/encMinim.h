@@ -7,12 +7,12 @@
 #define _ME_ENC_FAST 30
 #define _ME_BUTTON_DEB 80
 #define _ME_BUTTON_HOLD 2000
-// ================= УПРАВЛЕНИЕ =================
-#define ENCODER_TYPE 1        // тип энкодера (0 или 1). Если энкодер работает некорректно (пропуск шагов/2 шага), смените тип
-#define ENC_REVERSE 1         // 1 - инвертировать направление энкодера, 0 - нет
-#define CONTROL_TYPE 1        // тип управления энкодером: 0 - удерживание и поворот для изменения значения, 1 - клик для входа в изменение, повторный клик для выхода (стрелочка меняется на галочку)
-#define FAST_TURN 1           // 1 - вкл быстрый поворот
-#define FAST_TURN_STEP 10     // изменение при быстром повороте
+
+#define ENCODER_TYPE 1        
+#define ENC_REVERSE 1         
+#define CONTROL_TYPE 1        
+#define FAST_TURN 1           
+#define FAST_TURN_STEP 10     
 
 
 

@@ -63,12 +63,12 @@
 
 #define USE_AHT20 1
 
-// odłączyć BME jeżeli włączony DHT
-#if (DHT_SENS2 == 1)
-#define USE_BME 0
-#define USE_BMP280 0
-#define USE_ 0
-#endif
+// // odłączyć BME jeżeli włączony DHT
+// #if (DHT_SENS2 == 1)
+// #define USE_BME 0
+// #define USE_BMP280 0
+// #define USE_ 0
+// #endif
 
 
 // maximum schedule points
@@ -134,22 +134,22 @@ extern LiquidCrystal_I2C lcd;
 extern MicroDS3231 rtc;
 
 // bme
-#if (USE_BME == 1)
-#include <GyverBME280.h>
-extern GyverBME280 bme;
-#endif
+// #if (USE_BME == 1)
+// #include <GyverBME280.h>
+// extern GyverBME280 bme;
+// #endif
 
-#if (USE_ADAFRUIT_SENSOR == 1)
+// #if (USE_ADAFRUIT_SENSOR == 1)
 
-#include <Adafruit_Sensor.h>
-#include <Adafruit_AHTX0.h>
-#include <Adafruit_BMP280.h>
+// #include <Adafruit_Sensor.h>
+// #include <Adafruit_AHTX0.h>
+// #include <Adafruit_BMP280.h>
 
-// Create sensor instances
-Adafruit_AHTX0 aht;
-extern Adafruit_BMP280 bmp; // Default I2C address is 0x77
+// // Create sensor instances
+// Adafruit_AHTX0 aht;
+// extern Adafruit_BMP280 bmp; // Default I2C address is 0x77
 
-#endif
+// #endif
 
 #if (DALLAS_SENS1 == 1)
 #include <microDS18B20.h>
@@ -161,15 +161,15 @@ MicroDS18B20 dallas(SENS_1);
 #endif
 #endif
 
-#if (DHT_SENS2 == 1)
-#include <DHT.h>
-extern DHT dht(SENS_2, DHT_TYPE);
-#endif
+// #if (DHT_SENS2 == 1)
+// #include <DHT.h>
+// extern DHT dht(SENS_2, DHT_TYPE);
+// #endif
 
-#if (USE_HTU21D == 1)
-#include <microHTU21D.h>
-extern HTU21D myHTU21D(HTU21D_RES_RH12_TEMP14);
-#endif
+// #if (USE_HTU21D == 1)
+// #include <microHTU21D.h>
+// extern HTU21D myHTU21D(HTU21D_RES_RH12_TEMP14);
+// #endif
 
 #if (USE_BMP280 == 1)
 #include <BMP280.h>
@@ -185,17 +185,17 @@ extern AHT20 aht20;
 #if (WDT_ENABLE == 1)
 #include <avr/wdt.h>
 #endif
-// -------------------- ПЕРЕМЕННЫЕ ---------------------
+
 extern int8_t lastScreen;
 
-// struktura shedule
+// структура расписания
 #if (SCHEDULE_NUM > 0)
 struct scheduleStruct {
-  byte pidChannel = 0;    // select canal
-  int startDay = 1;  // day
-  int endDay = 1;    // month
-  byte pointAmount = 15;  // number points
-  int setpoints[SCHEDULE_MAX];  // table of sheduler
+  byte pidChannel = 0;    // выбор канала
+  int startDay = 1;  // день
+  int endDay = 1;    // месяц
+  byte pointAmount = 15;  // количество точек
+  int setpoints[SCHEDULE_MAX];  // массив расписания
 };
 scheduleStruct setSchedule, activeSchedule;
 #define loadSchedule(x) scheduleStruct(EEPROM.get((x) * EEPR_SHED_STEP + EEPR_SHED, activeSchedule))
@@ -208,6 +208,53 @@ const char *schedulePageNames[] = {
   "Amount",
 };
 #endif
+
+// Channels
+struct channelsStruct {
+  boolean type;
+  boolean state;          // состояние канала (вкл/выкл)
+  boolean direction;   // направление работы
+  boolean global;     // режим глобальных суток
+  int8_t week;            // неделька
+  int8_t sensor;              // тип датчика (air temp, air hum, mois1...)
+  int8_t relayType;           // тип реле (помпа, клапан, реле)
+  int8_t mode;                // режим работы (таймер, rtc, сутки, датчик)
+  int8_t startHour;       // начальный час для таймера RTC
+  int8_t impulsePrd;      // период импульса
+  int16_t threshold;     // мин. порог срабатывания
+  int16_t thresholdMax;  // макс. порог срабатывания
+  int16_t sensPeriod;     // период опроса датчика (секунды)
+  uint32_t period;      // период вызова
+  uint32_t work;          // период работы
+  uint32_t weekOn;      // неделька вкл
+  uint32_t weekOff;       // неделька выкл
+
+  channelsStruct() :
+       type(0),
+       state(0),
+       direction(true),
+       global(false),
+       week(0),
+       sensor(0),
+       relayType(0),
+       mode(0),
+       startHour(0),
+       impulsePrd(1),
+       threshold(30),
+       thresholdMax(30),
+       sensPeriod(2),
+       period(100),
+       work(10),
+       weekOn(100),
+       weekOff(10) {}
+};
+// 32
+extern channelsStruct activeChannel, setChannel;
+
+#define loadChannel(x) channelsStruct(EEPROM.get((x) * EEPR_CH_STEP, activeChannel))
+
+
+
 
 #if (USE_CO2 == 1 && CO2_CALIB == 0)
 uint16_t _tx_delay;
@@ -325,29 +372,6 @@ struct {
 } settings; //21
 
 // Channels
-struct channelsStruct {
-  boolean type = 0;
-  boolean state = 0;          // channel on/off)
-  boolean direction = true;   // direction
-  boolean global = false;     // global day mode
-  int8_t week = 0;            // week
-  int8_t sensor;              // sensor type (air temp, air hum, mois1...)
-  int8_t relayType;           // relais type (pump, valve, relais)
-  int8_t mode;                // work mode (timer, rtc, time, датчик)
-  int8_t startHour = 0;       // start time for RTC
-  int8_t impulsePrd = 1;      // impulse period
-  int16_t threshold = 30;     // min. response threshold
-  int16_t thresholdMax = 30;  // max. response threshold
-  int16_t sensPeriod = 2;     // sensor polling period (seconds)
-  uint32_t period = 100;      // stert period
-  uint32_t work = 10;          // work period
-  uint32_t weekOn = 100;      // week on
-  uint32_t weekOff = 10;       // week off
-};
-// 32
-extern channelsStruct activeChannel, setChannel;
-
-#define loadChannel(x) channelsStruct(EEPROM.get((x) * EEPR_CH_STEP, activeChannel))
 
 extern uint32_t timerMillis[10];       // milisecond counter
 

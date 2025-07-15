@@ -174,7 +174,7 @@ void serviceSett(int dir) {
       currentLine = 3;
       break;
     case 12:
-#if (SERVO1_RELAY == 1)    // если реле
+#if (SERVO1_RELAY == 1)    
       channelStatesServ[7] = (dir == 1) ? 1 : 0;
 #else
       incr(&servoPosServ[0], dir * 10, 180);
@@ -182,7 +182,7 @@ void serviceSett(int dir) {
       currentLine = 3;
       break;
     case 13:
-#if (SERVO2_RELAY == 1)    // если реле
+#if (SERVO2_RELAY == 1)    
       channelStatesServ[8] = (dir == 1) ? 1 : 0;
 #else
       incr(&servoPosServ[1], dir * 10, 180);
@@ -202,12 +202,12 @@ void settingsSett(int dir) {
 #endif
       analogWrite(DRV_PWM, settings.drvSpeed);
 #if (SERVO1_RELAY == 0 && SMOOTH_SERVO == 1)
-      servo1.setSpeed(settings.srv1_Speed);    // ограничить скорость
-      servo1.setAccel(settings.srv1_Acc);      // установить ускорение (разгон и торможение)
+      servo1.setSpeed(settings.srv1_Speed);    
+      servo1.setAccel(settings.srv1_Acc);      
 #endif
 #if (SERVO2_RELAY == 0 && SMOOTH_SERVO == 1)
-      servo2.setSpeed(settings.srv2_Speed);    // ограничить скорость
-      servo2.setAccel(settings.srv2_Acc);      // установить ускорение (разгон и торможение)
+      servo2.setSpeed(settings.srv2_Speed);    
+      servo2.setAccel(settings.srv2_Acc);      
 #endif
       break;
     case 1: incr(&settings.backlight, dir); break;
@@ -262,7 +262,7 @@ void setDMY(byte set, int dir) {
   rtc.setTime(rtc.getSeconds(), rtc.getMinutes(), rtc.getHours(), thisD, thisM, thisY);
 }
 
-// выбор канала
+
 void channelSett(int dir) {
   switch (arrowPos) {
     case 0:
@@ -292,11 +292,11 @@ void channelSett(int dir) {
       currentLine = 2;
       break;
     case 4:
-      if (curMode == 0) {   // реле
+      if (curMode == 0) {   
         incr(&setChannel.relayType, dir, 2);
         currentLine = 4;
 
-      } else if (curMode == 1) {  // серво
+      } else if (curMode == 1) {  
         if (currentChannel == 7) {
           incr(&settings.minAngle[0], 5 * dir, 180);
         } else if (currentChannel == 8) {
@@ -304,7 +304,7 @@ void channelSett(int dir) {
         }
         currentLine = 3;
 
-      } else {    // привод
+      } else {    
         incr(&settings.driveTimeout, dir, 30000);
         currentLine = 3;
       }
@@ -327,21 +327,21 @@ void chSettingsSett(int dir) {
   //if (arrowPos > 0) EEPROM_updFlag = true;
   switch (arrowPos) {
     case 0:
-      hms_to_s(); // сохранить время для режимов 0 и 2
+      hms_to_s(); 
       if (dir == 1) {
-        if ((currentChannel <= 1 && USE_PID_RELAY == 1) || currentChannel == 9) {  // для ШИМ-реле и привода
+        if ((currentChannel <= 1 && USE_PID_RELAY == 1) || currentChannel == 9) {  
           incr(&setChannel.mode, 1, 4);
         } else if (currentChannel == 2 || currentChannel == 3 ||
                    (currentChannel == 7 && SERVO1_RELAY == 0) ||
-                   (currentChannel == 8 && SERVO2_RELAY == 0)) { // для ШИМ и СЕРВО каналов
+                   (currentChannel == 8 && SERVO2_RELAY == 0)) { 
           incr(&setChannel.mode, 1, 5);
-        } else {                                              // для обычных реле
+        } else {                                              
           incr(&setChannel.mode, 1, 3);
         }
       } else {
         incr(&setChannel.mode, -1, 5);
       }
-      s_to_hms(); // загрузить новое время для режимов 0 и 2
+      s_to_hms(); 
       currentLine = 4;
       break;
     case 1:
@@ -354,7 +354,7 @@ void chSettingsSett(int dir) {
           break;
         case 1: incr(&setChannel.impulsePrd, dir, 19);
           break;
-        case 2: // неделька
+        case 2: 
           bitWrite(setChannel.week, 0, ( (dir == 1) ? 1 : 0) );
           break;
         case 3:
@@ -390,7 +390,7 @@ void chSettingsSett(int dir) {
           if (setChannel.work == 0) setChannel.work = 1;
           currentLine = 2;
           break;
-        case 2:  // неделька
+        case 2:  
           bitWrite(setChannel.week, 1, ( (dir == 1) ? 1 : 0) );
           break;
         case 3:
@@ -424,7 +424,7 @@ void chSettingsSett(int dir) {
         case 1: incr(&setChannel.startHour, dir, 23);
           currentLine = 3;
           break;
-        case 2: // неделька
+        case 2: 
           bitWrite(setChannel.week, 2, ( (dir == 1) ? 1 : 0) );
           break;
         case 3:
@@ -456,7 +456,7 @@ void chSettingsSett(int dir) {
         case 0: incr(&thisH[1], dir, 23);
           currentLine = 2;
           break;
-        case 2:  // неделька
+        case 2:  
           bitWrite(setChannel.week, 3, ( (dir == 1) ? 1 : 0) );
           break;
         case 3:
@@ -485,7 +485,7 @@ void chSettingsSett(int dir) {
         case 0: thisM[1] += dir;
           currentLine = 2;
           break;
-        case 2: // неделька
+        case 2: 
           bitWrite(setChannel.week, 4, ( (dir == 1) ? 1 : 0) );
           break;
 #if (USE_PID == 1)
@@ -504,7 +504,7 @@ void chSettingsSett(int dir) {
         case 0: thisS[1] += dir;
           currentLine = 2;
           break;
-        case 2: // неделька
+        case 2: 
           bitWrite(setChannel.week, 5, ( (dir == 1) ? 1 : 0) );
           break;
 #if (USE_PID == 1)
@@ -519,7 +519,7 @@ void chSettingsSett(int dir) {
       break;
     case 8:
       switch (thisMode) {
-        case 2: // неделька
+        case 2: 
           bitWrite(setChannel.week, 6, ( (dir == 1) ? 1 : 0) );
           break;
 #if (USE_PID == 1)
@@ -530,7 +530,7 @@ void chSettingsSett(int dir) {
       break;
     case 9:
       switch (thisMode) {
-        case 2: // неделька
+        case 2: 
           thisH[0] += dir;
           currentLine = 2;
           break;
@@ -568,7 +568,7 @@ void chSettingsSett(int dir) {
 }
 
 void controlTick() {
-  enc.tick(controlState);  // отработка энкодера
+  enc.tick(controlState);  
 
   if (enc.isTurn()) {
     settingsTimer = millis();
@@ -588,11 +588,11 @@ void controlTick() {
     byte fastTurn = 1;
 #endif
 
-    // позиции стрелки для каналов и режимов
+    
     if (enc.getState() == 1) {
       if (currentChannel >= 0 && currentChannel < 10) {
         debugPage = 0;
-        if (navDepth == 0) {  // настройки канала
+        if (navDepth == 0) {  
           if (setChannel.state) {
             if (currentChannel > 6 && currentChannel < 9) {
               byte thisMax = 5;
@@ -605,7 +605,7 @@ void controlTick() {
           } else {
             if (++arrowPos > 1) arrowPos = 1;
           }
-        } else {        // настройки режима
+        } else {        
           switch (setChannel.mode) {
             case 0: incr(&arrowPos, 1, 7); break;
             case 1: incr(&arrowPos, 1, 4); break;
@@ -615,7 +615,7 @@ void controlTick() {
             case 5: incr(&arrowPos, 1, 7); break;
           }
         }
-      } else if (currentChannel == -1) {  // позиции стрелки для дебаг
+      } else if (currentChannel == -1) {  
         arrowPos = 0;
 #if (USE_PLOTS == 1 || PID_AUTOTUNE == 1)
         debugPage++;
@@ -627,10 +627,10 @@ void controlTick() {
         if (debugPage > 6 + PID_AUTOTUNE) debugPage = 6 + PID_AUTOTUNE;
 #endif
         drawDebug();
-      } else if (currentChannel == -2) {  // позиции стрелки для настроек
+      } else if (currentChannel == -2) {  
         incr(&arrowPos, 1, SETTINGS_AMOUNT);
 
-      } else if (currentChannel == -3) {  // позиции стрелки для сервиса
+      } else if (currentChannel == -3) {  
         incr(&arrowPos, 1, 13);
 
       } else if (currentChannel >= 10) {
@@ -661,7 +661,7 @@ void controlTick() {
 #endif
     thisMode = setChannel.mode;
 
-    // ============ изменение
+    
     int8_t changed = 0;
 
 #if (CONTROL_TYPE == 0)
@@ -701,7 +701,7 @@ void controlTick() {
     if ( (currentChannel == -2) ||
          (currentChannel >= 0 && navDepth == 1 && thisMode >= 4) ||
          currentChannel >= 10)
-      redrawScreen();  // костыль для пида и рассвета и меню настроек
+      redrawScreen();  
     enc.rst();
   }
 
@@ -717,8 +717,8 @@ void controlTick() {
 #if (START_MENU == 1)
         !startService &&
 #endif
-        !(arrowPos == 1 && navDepth == 1) &&  // back
-        !(arrowPos == 2 && navDepth == 0 && currentChannel >= 0)) { // настройки канала
+        !(arrowPos == 1 && navDepth == 1) &&  
+        !(arrowPos == 2 && navDepth == 0 && currentChannel >= 0)) { 
       controlState = !controlState;
       drawArrow();
     }
@@ -731,12 +731,12 @@ void controlTick() {
 #endif
 
     if (currentChannel >= 0 && currentChannel < 10) {
-      if (arrowPos == 2 && navDepth == 0) { // заходим в настройки режима
+      if (arrowPos == 2 && navDepth == 0) { 
         navDepth = 1;
         arrowPos = 0;
         s_to_hms();
       }
-      if (arrowPos == 1 && navDepth == 1) { // нажатие на Back
+      if (arrowPos == 1 && navDepth == 1) { 
         navDepth = 0;
         arrowPos = 2;
         hms_to_s();
@@ -815,7 +815,7 @@ void correctTime() {
 }
 
 
-// перевод секунд в ЧЧ:ММ:СС
+
 void s_to_hms() {
   uint32_t period = 0;
 
@@ -824,7 +824,7 @@ void s_to_hms() {
   else if (setChannel.mode == 2)
     period = setChannel.weekOn;
 
-  thisH[0] = floor((long)period / 3600);    // секунды в часы
+  thisH[0] = floor((long)period / 3600);    
   thisM[0] = floor((period - (long)thisH[0] * 3600) / 60);
   thisS[0] = period - (long)thisH[0] * 3600 - thisM[0] * 60;
 
@@ -833,14 +833,14 @@ void s_to_hms() {
   else if (setChannel.mode == 2)
     period = setChannel.weekOff;
 
-  thisH[1] = floor((long)period / 3600);    // секунды в часы
+  thisH[1] = floor((long)period / 3600);    
   thisM[1] = floor((period - (long)thisH[1] * 3600) / 60);
   thisS[1] = period - (long)thisH[1] * 3600 - thisM[1] * 60;
 }
 
-// перевод ЧЧ:ММ:СС в секунды
+
 void hms_to_s() {
-  if (setChannel.mode == 0) {
+  if (setChannel.mode == false) {
     setChannel.period = ((long)thisH[0] * 3600 + thisM[0] * 60 + thisS[0]);
     setChannel.work = ((long)thisH[1] * 3600 + thisM[1] * 60 + thisS[1]);
   }

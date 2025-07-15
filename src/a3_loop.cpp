@@ -6,47 +6,47 @@
 #include "redrawScreen.h"
 #include "pid.h"
 
-// Forward declarations for missing functions
+
 
 void controlTick();
 
 
-// -------------------- LOOP ---------------------
+
 void loop() {
-  customLoop();       // вызов блока своих функций (вкладка custom)
-  checkPID();         // пересчёт регулятора
-  backlTick();        // таймер неактивности подсветки
-  debTick();          // таймер неактивности дисплея
-  controlTick();      // управление
-  readAllSensors();   // опрос датчиков
+  customLoop();       
+  checkPID();         
+  backlTick();        
+  debTick();          
+  controlTick();      
+  readAllSensors();   
 
 #if (USE_CO2 == 1)
   CO2tick();
 #endif
 
 #if (USE_PLOTS == 1)
-  plotTick();         // графики
+  plotTick();         
 #endif
 
 #if (USE_DRIVE == 1)
-  driveTick();        // работа привода
+  driveTick();        
 #endif
 
-#if (USE_PID_RELAY == 1)  // шим-реле
+#if (USE_PID_RELAY == 1)  
   tickPWM(0, flag0, tmr0);
   tickPWM(1, flag1, tmr1);
 #endif
 
 #if (SERVO1_RELAY == 0 && SMOOTH_SERVO == 1)
-  servo1.tick();      // здесь происходит движение серво по встроенному таймеру!
+  servo1.tick();      
 #endif
 #if (SERVO2_RELAY == 0 && SMOOTH_SERVO == 1)
-  servo2.tick();      // здесь происходит движение серво по встроенному таймеру!
+  servo2.tick();      
 #endif
 
-  if (currentChannel == -3) {         // если СЕРВИС
+  if (currentChannel == -3) {         
     serviceTick();
-  } else {  // если ОТЛАДКА или НАСТРОЙКИ
+  } else {  
     if (millis() - commonTimer > 1000) {
       commonTimer += 1000;
       timersTick();
@@ -77,6 +77,6 @@ void loop() {
   }
 
 #if (WDT_ENABLE == 1)
-  wdt_reset();        // пинаем собаку
+  wdt_reset();        
 #endif
 }
