@@ -3,8 +3,8 @@
 
 void drawArrow();
 void smartArrow(bool state);
-void arrow(int x, int y);
-void space(int x, int y);
-void colon(int x, int y);
+void arrow(byte x, byte y);
+void space(byte x, byte y);
+void colon(byte x, byte y);
 
 #endif
