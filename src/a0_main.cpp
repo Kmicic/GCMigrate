@@ -204,14 +204,67 @@ byte curSetMode = 0;
 boolean startPID = false;
 float uptime = 0;
 int8_t lastScreen = 0;
+uint16_t thisDay = 0;
 const int PWMperiod = (float)1000 / PWM_RELAY_HZ;
 
 LiquidCrystal_I2C lcd(LCD_ADDR, 20, 4);
 encMinim enc(CLK, DT, SW, true, false);
 boolean controlState = false;  // true - control, false - read
 
-// #if (USE_AHT20 == 1)
-// #include <AHT20.h>
-// AHT20 aht20;
-// #endif  
+// Global sensor objects
+MicroDS3231 rtc;
+
+#if (USE_BMP280 == 1)
+BMP280 bmp280;
+#endif
+
+#if (USE_AHT20 == 1)
+AHT20 aht20;
+#endif
+
+// Global variables - system state
+long timerMillis[10];
+uint32_t driveTimer = 0;
+byte driveState = 0;
+boolean lastDriveState = false;
+boolean manualControl = false;
+boolean manualPos = false;
+
+// Global variables - sensor data
+float sensorVals[8];
+int8_t realTime[3];
+byte servoPosServ[2];
+int PWMactive[2];
+
+// Global variables - PID and drive
+int pwmVal[7];
+boolean drivePidFlag = false;
+
+// Global variables - channel states
+boolean channelStates[10];
+boolean channelStatesServ[10];
+int8_t debugPage = 0;
+
+// Global variables - UI state
+int8_t arrowPos = 0;
+int8_t navDepth = 0;
+int8_t currentChannel = 0;
+int8_t currentMode = 0;
+int8_t thisH[2], thisM[2], thisS[2];
+int8_t currentLine = 0;
+uint32_t commonTimer = 0, backlTimer = 0, plotTimer = 0;
+
+// Global variables - sensor history
+int sensMinute[6][15];
+
+// Global variables - flags and timers
+boolean serviceFlag = false;
+boolean timeChanged = false;
+boolean startFlagDawn = false;
+uint32_t settingsTimer = 0;
+uint32_t driveTout = 0;
+
+// Global variables - mode
+byte thisMode = 0;
+byte curMode = 0;  
 

@@ -149,7 +149,7 @@ extern const char row1[] PROGMEM;
 #endif
 
 #if (START_MENU == 1)
-extern bool startService = false;
+extern bool startService;
 #endif
 
 extern int8_t currentChannel; 

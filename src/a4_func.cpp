@@ -2,11 +2,6 @@
 #include "menu.h"
 #include "redrawScreen.h"
 
-#if (USE_AHT20 == 1)
-#include <AHT20.h>
-AHT20 aht20;
-#endif  
-
 void initHardware() {
 #if (WDT_ENABLE == 1)
   wdt_disable();
