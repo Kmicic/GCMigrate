@@ -112,17 +112,17 @@ extern encMinim enc;
 
 #if (SERVO1_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
-ServoSmooth servo1;
+extern ServoSmooth servo1;
 #else
-Servo servo1;
+extern Servo servo1;
 #endif
 #endif
 
 #if (SERVO2_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
-ServoSmooth servo2;
+extern ServoSmooth servo2;
 #else
-Servo servo2;
+extern Servo servo2;
 #endif
 #endif
 
@@ -157,10 +157,10 @@ extern MicroDS3231 rtc;
 #if (DALLAS_SENS1 == 1)
 #include <microDS18B20.h>
 #if (DALLAS_AMOUNT > 1)
-MicroDS18B20 dallas[DALLAS_AMOUNT];
-float dallasBuf[DALLAS_AMOUNT];
+extern MicroDS18B20 dallas[DALLAS_AMOUNT];
+extern float dallasBuf[DALLAS_AMOUNT];
 #else
-MicroDS18B20 dallas(SENS_1);
+extern MicroDS18B20 dallas;
 #endif
 #endif
 
@@ -254,9 +254,9 @@ extern channelsStruct activeChannel, setChannel;
 
 
 #if (USE_CO2 == 1 && CO2_CALIB == 0)
-uint16_t _tx_delay;
-uint8_t *_tx_pin_reg;
-uint8_t _tx_pin_mask;
+extern uint16_t _tx_delay;
+extern uint8_t *_tx_pin_reg;
+extern uint8_t _tx_pin_mask;
 #endif
 
 // dawn
@@ -317,49 +317,49 @@ bool flag0, flag1;
 #endif
 
 #if (PID_AUTOTUNE == 1)
-struct {
-  bool tuner = false;
-  bool restart = true;
-  bool result = false;
-  byte channel = 0;
-  byte sensor = 0;
-  bool manual = false;
-  byte steady = 50;
-  byte step = 25;
-  float window = 0.1;
-  byte kickTime = 30;
-  byte delay = 20;
-  byte period = 1;
+extern struct {
+  bool tuner;
+  bool restart;
+  bool result;
+  byte channel;
+  byte sensor;
+  bool manual;
+  byte steady;
+  byte step;
+  float window;
+  byte kickTime;
+  byte delay;
+  byte period;
 } tunerSettings;
 
-struct {
-  byte status = 0;
-  uint32_t cycle = 0;
-  float min = 0;
-  float max = 0;
-  float P = 0;
-  float I = 0;
-  float D = 0;
-  byte value = 0;
-  float input = 0;
+extern struct {
+  byte status;
+  uint32_t cycle;
+  float min;
+  float max;
+  float P;
+  float I;
+  float D;
+  byte value;
+  float input;
 } tuner;
 
 extern const char *tuneNames[];
 #endif
 
-struct {
-  boolean backlight = 1;    // auto-off display backlight after idle timeout (1 - enable)
-  byte backlTime = 60;      // Display timeout, seconds
-  byte drvSpeed = 125;      // drive speed, 0-255
-  byte srv1_Speed = 40;     // max servo1 speed, 0-255
-  byte srv2_Speed = 40;     // max speed servo 2, 0-255
-  float srv1_Acc = 0.2;     // servo acceleration 1, 0.0-1.0
-  float srv2_Acc = 0.2;     // servo acceleration 2, 0.0-1.0
-  int16_t comSensPeriod = 1;
-  int8_t plotMode = 0;
-  byte minAngle[2] = {0, 0};
-  byte maxAngle[2] = {180, 180};
-  int16_t driveTimeout = 50;
+extern struct {
+  boolean backlight;    // auto-off display backlight after idle timeout (1 - enable)
+  byte backlTime;      // Display timeout, seconds
+  byte drvSpeed;      // drive speed, 0-255
+  byte srv1_Speed;     // max servo1 speed, 0-255
+  byte srv2_Speed;     // max speed servo 2, 0-255
+  float srv1_Acc;     // servo acceleration 1, 0.0-1.0
+  float srv2_Acc;     // servo acceleration 2, 0.0-1.0
+  int16_t comSensPeriod;
+  int8_t plotMode;
+  byte minAngle[2];
+  byte maxAngle[2];
+  int16_t driveTimeout;
 } settings; //21
 
 // Channels

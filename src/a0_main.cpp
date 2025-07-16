@@ -222,6 +222,33 @@ BMP280 bmp280;
 AHT20 aht20;
 #endif
 
+// Servo objects
+#if (SERVO1_RELAY == 0)
+#if (SMOOTH_SERVO == 1)
+ServoSmooth servo1;
+#else
+Servo servo1;
+#endif
+#endif
+
+#if (SERVO2_RELAY == 0)
+#if (SMOOTH_SERVO == 1)
+ServoSmooth servo2;
+#else
+Servo servo2;
+#endif
+#endif
+
+// Dallas sensor objects
+#if (DALLAS_SENS1 == 1)
+#if (DALLAS_AMOUNT > 1)
+MicroDS18B20 dallas[DALLAS_AMOUNT];
+float dallasBuf[DALLAS_AMOUNT];
+#else
+MicroDS18B20 dallas(SENS_1);
+#endif
+#endif
+
 // Global variables - system state
 long timerMillis[10];
 uint32_t driveTimer = 0;
@@ -303,6 +330,15 @@ const byte channelToPWM[] = {0, 1, 2, 3, 0, 0, 0, 4, 5, 6};
 const byte impulsePrds[] = {1, 5, 10, 15, 20, 30, 1, 2, 3, 4, 6, 8, 12, 1, 2, 3, 4, 5, 6, 7};
 const byte relayPins[] = {RELAY_0, RELAY_1, RELAY_2, RELAY_3, RELAY_4, RELAY_5, RELAY_6, SERVO_0, SERVO_1};
 
+// Dallas sensor addresses
+#if (DALLAS_AMOUNT > 1)
+const uint8_t dsAddress[][8] = {
+  {0x28, 0xFF, 0x42, 0x5A, 0x51, 0x17, 0x4, 0xD2}, 
+  {0x28, 0xFF, 0x53, 0xE5, 0x50, 0x17, 0x4, 0xC3}, 
+  {0x28, 0xFF, 0x99, 0x80, 0x50, 0x17, 0x4, 0x4D}, 
+};
+#endif
+
 // Schedule page names
 #if (SCHEDULE_NUM > 0)
 const char *schedulePageNames[] = {
@@ -331,5 +367,58 @@ const char *plotNames[] = {
   "Hour",
   "Day",
 };
+#endif
+
+// PID Autotune variables
+#if (PID_AUTOTUNE == 1)
+struct {
+  bool tuner = false;
+  bool restart = true;
+  bool result = false;
+  byte channel = 0;
+  byte sensor = 0;
+  bool manual = false;
+  byte steady = 50;
+  byte step = 25;
+  float window = 0.1;
+  byte kickTime = 30;
+  byte delay = 20;
+  byte period = 1;
+} tunerSettings;
+
+struct {
+  byte status = 0;
+  uint32_t cycle = 0;
+  float min = 0;
+  float max = 0;
+  float P = 0;
+  float I = 0;
+  float D = 0;
+  byte value = 0;
+  float input = 0;
+} tuner;
+#endif
+
+// Settings structure
+struct {
+  boolean backlight = 1;    // auto-off display backlight after idle timeout (1 - enable)
+  byte backlTime = 60;      // Display timeout, seconds
+  byte drvSpeed = 125;      // drive speed, 0-255
+  byte srv1_Speed = 40;     // max servo1 speed, 0-255
+  byte srv2_Speed = 40;     // max speed servo 2, 0-255
+  float srv1_Acc = 0.2;     // servo acceleration 1, 0.0-1.0
+  float srv2_Acc = 0.2;     // servo acceleration 2, 0.0-1.0
+  int16_t comSensPeriod = 1;
+  int8_t plotMode = 0;
+  byte minAngle[2] = {0, 0};
+  byte maxAngle[2] = {180, 180};
+  int16_t driveTimeout = 50;
+} settings;
+
+// CO2 sensor variables
+#if (USE_CO2 == 1 && CO2_CALIB == 0)
+uint16_t _tx_delay;
+uint8_t *_tx_pin_reg;
+uint8_t _tx_pin_mask;
 #endif  
 
