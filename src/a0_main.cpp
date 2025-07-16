@@ -266,5 +266,70 @@ uint32_t driveTout = 0;
 
 // Global variables - mode
 byte thisMode = 0;
-byte curMode = 0;  
+byte curMode = 0;
+
+// PID variables (only defined if PID is enabled)
+#if (USE_PID == 1)
+PIDstruct activePID, setPID;
+float integralSum[PID_CH_AMOUNT];
+float prevInput[PID_CH_AMOUNT];
+float input[PID_CH_AMOUNT];
+int output[PID_CH_AMOUNT];
+uint32_t PIDtimers[PID_CH_AMOUNT];
+#endif
+
+// PID relay variables  
+#if (USE_PID_RELAY == 1)
+uint32_t tmr0, tmr1;
+bool flag0, flag1;
+#endif
+
+// Schedule variables
+#if (SCHEDULE_NUM > 0)
+scheduleStruct setSchedule, activeSchedule;
+#endif
+
+// Dawn variables
+#if (USE_DAWN == 1)
+dawnStruct setDawn, activeDawn;
+#endif
+
+// Channel variables
+channelsStruct activeChannel, setChannel;
+
+// Constant arrays  
+const byte PIDchs[] = {0, 1, 2, 3, 7, 8, 9};
+const byte channelToPWM[] = {0, 1, 2, 3, 0, 0, 0, 4, 5, 6};
+const byte impulsePrds[] = {1, 5, 10, 15, 20, 30, 1, 2, 3, 4, 6, 8, 12, 1, 2, 3, 4, 5, 6, 7};
+const byte relayPins[] = {RELAY_0, RELAY_1, RELAY_2, RELAY_3, RELAY_4, RELAY_5, RELAY_6, SERVO_0, SERVO_1};
+
+// Schedule page names
+#if (SCHEDULE_NUM > 0)
+const char *schedulePageNames[] = {
+  "Channel",
+  "Start",
+  "End",
+  "Amount",
+};
+#endif
+
+// PID tuner names
+#if (PID_AUTOTUNE == 1)
+const char *tuneNames[] = {
+  "off",
+  "wait steady",
+  "wait kick",
+  "step up",
+  "step down",
+};
+#endif
+
+// Plot names
+#if (USE_PLOTS == 1)
+const char *plotNames[] = {
+  "Min",
+  "Hour",
+  "Day",
+};
+#endif  
 

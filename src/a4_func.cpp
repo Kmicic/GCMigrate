@@ -26,7 +26,8 @@ void initHardware() {
 
   
   if (rtc.lostPower()) {  
-    rtc.setTime(COMPILE_TIME);  
+    // Set time to a reasonable default (1 Jan 2024, 00:00:00)
+    rtc.setTime(0, 0, 0, 1, 1, 24);
   }
 
   

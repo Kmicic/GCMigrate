@@ -199,16 +199,11 @@ struct scheduleStruct {
   byte pointAmount = 15;  // количество точек
   int setpoints[SCHEDULE_MAX];  // массив расписания
 };
-scheduleStruct setSchedule, activeSchedule;
+extern scheduleStruct setSchedule, activeSchedule;
 #define loadSchedule(x) scheduleStruct(EEPROM.get((x) * EEPR_SHED_STEP + EEPR_SHED, activeSchedule))
 //6+SCHEDULE_NUM*2
 
-const char *schedulePageNames[] = {
-  "Channel",
-  "Start",
-  "End",
-  "Amount",
-};
+extern const char *schedulePageNames[];
 #endif
 
 // Channels
@@ -276,7 +271,7 @@ struct dawnStruct {
   uint8_t maxV = 255;
   // 6
 };
-dawnStruct setDawn, activeDawn;
+extern dawnStruct setDawn, activeDawn;
 #define loadDawn(x) dawnStruct(EEPROM.get((x) * EEPR_DAWN_STEP + EEPR_DAWN, activeDawn))
 #endif
 
@@ -295,16 +290,16 @@ struct PIDstruct {
   float setpoint = 20;    // set vallue
   // 20
 };
-PIDstruct activePID, setPID;
+extern PIDstruct activePID, setPID;
 
 #define loadPID(x) PIDstruct(EEPROM.get((x) * EEPR_PID_STEP + EEPR_PID, activePID))
 #define savePID(x) (EEPROM.put((x) * EEPR_PID_STEP + EEPR_PID, activePID))
 
-float integralSum[PID_CH_AMOUNT];
-float prevInput[PID_CH_AMOUNT];
-float input[PID_CH_AMOUNT];
-int output[PID_CH_AMOUNT];
-uint32_t PIDtimers[PID_CH_AMOUNT];
+extern float integralSum[PID_CH_AMOUNT];
+extern float prevInput[PID_CH_AMOUNT];
+extern float input[PID_CH_AMOUNT];
+extern int output[PID_CH_AMOUNT];
+extern uint32_t PIDtimers[PID_CH_AMOUNT];
 #endif
 
 #if (USE_PID_RELAY == 1)
@@ -349,13 +344,7 @@ struct {
   float input = 0;
 } tuner;
 
-const char *tuneNames[] = {
-  "off",
-  "wait steady",
-  "wait kick",
-  "step up",
-  "step down",
-};
+extern const char *tuneNames[];
 #endif
 
 struct {
@@ -384,10 +373,10 @@ extern boolean manualControl;
 extern boolean manualPos;
 extern boolean controlState;
 
-const byte PIDchs[] = {0, 1, 2, 3, 7, 8, 9};
-const byte channelToPWM[] = {0, 1, 2, 3, 0, 0, 0, 4, 5, 6};  // channel to pwm
-const byte impulsePrds[] = {1, 5, 10, 15, 20, 30, 1, 2, 3, 4, 6, 8, 12, 1, 2, 3, 4, 5, 6, 7};
-const byte relayPins[] = {RELAY_0, RELAY_1, RELAY_2, RELAY_3, RELAY_4, RELAY_5, RELAY_6, SERVO_0, SERVO_1};
+extern const byte PIDchs[];
+extern const byte channelToPWM[];  // channel to pwm
+extern const byte impulsePrds[];
+extern const byte relayPins[];
 
 extern float sensorVals[8];    // sensors ...
 extern int8_t realTime[3];
@@ -460,11 +449,7 @@ extern byte curMode;
 extern const char *sensorNames[];
 
 #if (USE_PLOTS == 1)
-const char *plotNames[]  = {
-  "Min",
-  "Hour",
-  "Day",
-};
+extern const char *plotNames[];
 #endif
 
 // harmful functions
@@ -473,7 +458,7 @@ void smartArrow(bool state = true);
 
 void clearEEPROM();
 void applySettings();
-void customSet();
+void customSetup();
 void customLoop();
 
 #endif
