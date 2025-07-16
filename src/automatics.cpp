@@ -84,7 +84,7 @@ void timersTick() {
           else channelStates[curChannel] = !activeChannel.direction;    
           break;
         case 3:   
-          if (millis() - timerMillis[curChannel] >= activeChannel.sensPeriod * 1000L) {
+          if ((int16_t)(millis() - timerMillis[curChannel]) >= activeChannel.sensPeriod * 1000L) {
             timerMillis[curChannel] = millis();
 
             /*
@@ -230,8 +230,8 @@ boolean checkDay(byte channel) {
   channelsStruct temp = loadChannel(channel);
   if (bitRead(temp.week, today - 1) &&
       ((temp.weekOff > temp.weekOn) ?
-       (thisTime > temp.weekOn && thisTime < temp.weekOff) :
-       (thisTime > temp.weekOn || thisTime < temp.weekOff))) return true;
+       (thisTime > (long)temp.weekOn && thisTime < (long)temp.weekOff) :
+       (thisTime > (long)temp.weekOn || thisTime < (long)temp.weekOff))) return true;
   else return false;
 }
 

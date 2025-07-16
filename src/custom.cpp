@@ -1,7 +1,7 @@
 #include "a0_data.h"
 
-boolean chkTimer (unsigned long &startTime, unsigned long loopTime) 
-{ if (millis()-startTime >= loopTime)  {      
+boolean chkTimer (long &startTime, long loopTime) 
+{ if ((long)(millis()-startTime) >= loopTime)  {      
         startTime = millis();          
         return true;  }                
   else return false;  

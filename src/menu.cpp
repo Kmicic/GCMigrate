@@ -1,5 +1,6 @@
+#include <Arduino.h>
 #include "a0_data.h"
-#include "a1_data.h"
+
 #include "redrawScreen.h"
 #include "arrowcontrol.h"
 #include "service.h"
@@ -15,12 +16,14 @@ void incr(int* val, int incr, int limit) {
   if (*val > limit) *val = limit;
   if (*val < 0) *val = 0;
 }
+
 void incr(uint32_t* val, int incr, int limit) {
   if (incr < 0 && *val < -incr) *val = 0;
   else *val += incr;
   if (*val > limit) *val = limit;
   if (*val < 0) *val = 0;
 }
+
 void incr(int8_t* val, int incr, int limit) {
   *val += incr;
   if (*val > limit) *val = limit;
@@ -323,7 +326,7 @@ void channelSett(int dir) {
 }
 
 void chSettingsSett(int dir) {
-  byte curPWMchannel = channelToPWM[currentChannel];
+  curPWMchannel = channelToPWM[currentChannel];
   //if (arrowPos > 0) EEPROM_updFlag = true;
   switch (arrowPos) {
     case 0:
@@ -841,11 +844,11 @@ void s_to_hms() {
 
 void hms_to_s() {
   if (setChannel.mode == false) {
-    setChannel.period = ((long)thisH[0] * 3600 + thisM[0] * 60 + thisS[0]);
-    setChannel.work = ((long)thisH[1] * 3600 + thisM[1] * 60 + thisS[1]);
+    setChannel.period = ((uint32_t)thisH[0] * 3600 + thisM[0] * 60 + thisS[0]);
+    setChannel.work = ((uint32_t)thisH[1] * 3600 + thisM[1] * 60 + thisS[1]);
   }
   if (setChannel.mode == 2) {
-    setChannel.weekOn = ((long)thisH[0] * 3600 + thisM[0] * 60 + thisS[0]);
-    setChannel.weekOff = ((long)thisH[1] * 3600 + thisM[1] * 60 + thisS[1]);
+    setChannel.weekOn = ((uint32_t)thisH[0] * 3600 + thisM[0] * 60 + thisS[0]);
+    setChannel.weekOff = ((uint32_t)thisH[1] * 3600 + thisM[1] * 60 + thisS[1]);
   }
 }

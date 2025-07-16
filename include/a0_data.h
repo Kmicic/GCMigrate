@@ -1,5 +1,10 @@
-#include <Arduino.h>
+#ifndef A0_DATA_H
+#define A0_DATA_H
 
+#include <Arduino.h>
+#include <stdint.h>
+
+#pragma once
 
 #define START_MENU 0          
 #define USE_PLOTS 0           
@@ -153,3 +158,5 @@ extern byte curPWMchannel;
 extern byte curSetMode;   
 
 #include "a1_data.h"
+
+#endif

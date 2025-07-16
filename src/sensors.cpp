@@ -20,8 +20,8 @@ void getAllData() {
 
 
 #if (USE_BMP280 == 1)
-  sensorVals[0] = bmp280.getTemperature();
-  sensorVals[6] = bmp280.getPressure();
+   sensorVals[0] = bmp280.getTemperature();
+   sensorVals[1] = bmp280.getPressure();
 #endif
 
 #if (USE_AHT20 == 1)
@@ -34,6 +34,7 @@ sensorVals[1] = aht20.getHumidity();
   sensorVals[1] = myHTU21D.readHumidity();
   sensorVals[0] = myHTU21D.readTemperature();
 #endif
+
 
   sensorVals[1] = constrain(sensorVals[1], 0, 99);
 

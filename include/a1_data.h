@@ -2,6 +2,9 @@
 #define A1_DATA_H
 
 #include <Arduino.h>
+#include <stdint.h>
+
+#pragma once
 
 // -------------------- PINY ---------------------
 #define SW        0
@@ -173,7 +176,6 @@ MicroDS18B20 dallas(SENS_1);
 
 #if (USE_BMP280 == 1)
 #include <BMP280.h>
-//#include <Adafruit_BMP280.h>
 extern BMP280 bmp280;
 #endif
 
@@ -373,7 +375,7 @@ struct {
 
 // Channels
 
-extern uint32_t timerMillis[10];       // milisecond counter
+extern long timerMillis[10];       // milisecond counter
 
 extern uint32_t driveTimer;
 extern byte driveState;

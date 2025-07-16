@@ -1,7 +1,8 @@
 #include <Arduino.h>
 
 #include "a0_data.h"
-#include "a1_data.h"
+
+
 
 boolean backlState = true;  
 

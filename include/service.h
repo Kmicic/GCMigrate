@@ -1,6 +1,5 @@
 #ifndef SERVICE_H
 #define SERVICE_H   
-#include "a0_data.h"
 
 void serviceTick();  
 void serviceIN();    
