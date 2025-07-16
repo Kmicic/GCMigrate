@@ -88,12 +88,7 @@
 
 
 #if (DALLAS_AMOUNT > 1)
-const uint8_t dsAddress[][8] = {
-  {0x28, 0xFF, 0x42, 0x5A, 0x51, 0x17, 0x4, 0xD2}, 
-  {0x28, 0xFF, 0x53, 0xE5, 0x50, 0x17, 0x4, 0xC3}, 
-  {0x28, 0xFF, 0x99, 0x80, 0x50, 0x17, 0x4, 0x4D}, 
-  
-};
+extern const uint8_t dsAddress[][8];
 #endif
 
 
@@ -149,7 +144,7 @@ extern const char row1[] PROGMEM;
 #endif
 
 #if (START_MENU == 1)
-extern bool startService = false;
+extern bool startService;
 #endif
 
 extern int8_t currentChannel; 

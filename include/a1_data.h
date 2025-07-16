@@ -112,17 +112,17 @@ extern encMinim enc;
 
 #if (SERVO1_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
-ServoSmooth servo1;
+extern ServoSmooth servo1;
 #else
-Servo servo1;
+extern Servo servo1;
 #endif
 #endif
 
 #if (SERVO2_RELAY == 0)
 #if (SMOOTH_SERVO == 1)
-ServoSmooth servo2;
+extern ServoSmooth servo2;
 #else
-Servo servo2;
+extern Servo servo2;
 #endif
 #endif
 
@@ -157,10 +157,10 @@ extern MicroDS3231 rtc;
 #if (DALLAS_SENS1 == 1)
 #include <microDS18B20.h>
 #if (DALLAS_AMOUNT > 1)
-MicroDS18B20 dallas[DALLAS_AMOUNT];
-float dallasBuf[DALLAS_AMOUNT];
+extern MicroDS18B20 dallas[DALLAS_AMOUNT];
+extern float dallasBuf[DALLAS_AMOUNT];
 #else
-MicroDS18B20 dallas(SENS_1);
+extern MicroDS18B20 dallas;
 #endif
 #endif
 
@@ -199,16 +199,11 @@ struct scheduleStruct {
   byte pointAmount = 15;  // количество точек
   int setpoints[SCHEDULE_MAX];  // массив расписания
 };
-scheduleStruct setSchedule, activeSchedule;
+extern scheduleStruct setSchedule, activeSchedule;
 #define loadSchedule(x) scheduleStruct(EEPROM.get((x) * EEPR_SHED_STEP + EEPR_SHED, activeSchedule))
 //6+SCHEDULE_NUM*2
 
-const char *schedulePageNames[] = {
-  "Channel",
-  "Start",
-  "End",
-  "Amount",
-};
+extern const char *schedulePageNames[];
 #endif
 
 // Channels
@@ -259,9 +254,9 @@ extern channelsStruct activeChannel, setChannel;
 
 
 #if (USE_CO2 == 1 && CO2_CALIB == 0)
-uint16_t _tx_delay;
-uint8_t *_tx_pin_reg;
-uint8_t _tx_pin_mask;
+extern uint16_t _tx_delay;
+extern uint8_t *_tx_pin_reg;
+extern uint8_t _tx_pin_mask;
 #endif
 
 // dawn
@@ -276,7 +271,7 @@ struct dawnStruct {
   uint8_t maxV = 255;
   // 6
 };
-dawnStruct setDawn, activeDawn;
+extern dawnStruct setDawn, activeDawn;
 #define loadDawn(x) dawnStruct(EEPROM.get((x) * EEPR_DAWN_STEP + EEPR_DAWN, activeDawn))
 #endif
 
@@ -295,16 +290,16 @@ struct PIDstruct {
   float setpoint = 20;    // set vallue
   // 20
 };
-PIDstruct activePID, setPID;
+extern PIDstruct activePID, setPID;
 
 #define loadPID(x) PIDstruct(EEPROM.get((x) * EEPR_PID_STEP + EEPR_PID, activePID))
 #define savePID(x) (EEPROM.put((x) * EEPR_PID_STEP + EEPR_PID, activePID))
 
-float integralSum[PID_CH_AMOUNT];
-float prevInput[PID_CH_AMOUNT];
-float input[PID_CH_AMOUNT];
-int output[PID_CH_AMOUNT];
-uint32_t PIDtimers[PID_CH_AMOUNT];
+extern float integralSum[PID_CH_AMOUNT];
+extern float prevInput[PID_CH_AMOUNT];
+extern float input[PID_CH_AMOUNT];
+extern int output[PID_CH_AMOUNT];
+extern uint32_t PIDtimers[PID_CH_AMOUNT];
 #endif
 
 #if (USE_PID_RELAY == 1)
@@ -322,55 +317,49 @@ bool flag0, flag1;
 #endif
 
 #if (PID_AUTOTUNE == 1)
-struct {
-  bool tuner = false;
-  bool restart = true;
-  bool result = false;
-  byte channel = 0;
-  byte sensor = 0;
-  bool manual = false;
-  byte steady = 50;
-  byte step = 25;
-  float window = 0.1;
-  byte kickTime = 30;
-  byte delay = 20;
-  byte period = 1;
+extern struct {
+  bool tuner;
+  bool restart;
+  bool result;
+  byte channel;
+  byte sensor;
+  bool manual;
+  byte steady;
+  byte step;
+  float window;
+  byte kickTime;
+  byte delay;
+  byte period;
 } tunerSettings;
 
-struct {
-  byte status = 0;
-  uint32_t cycle = 0;
-  float min = 0;
-  float max = 0;
-  float P = 0;
-  float I = 0;
-  float D = 0;
-  byte value = 0;
-  float input = 0;
+extern struct {
+  byte status;
+  uint32_t cycle;
+  float min;
+  float max;
+  float P;
+  float I;
+  float D;
+  byte value;
+  float input;
 } tuner;
 
-const char *tuneNames[] = {
-  "off",
-  "wait steady",
-  "wait kick",
-  "step up",
-  "step down",
-};
+extern const char *tuneNames[];
 #endif
 
-struct {
-  boolean backlight = 1;    // auto-off display backlight after idle timeout (1 - enable)
-  byte backlTime = 60;      // Display timeout, seconds
-  byte drvSpeed = 125;      // drive speed, 0-255
-  byte srv1_Speed = 40;     // max servo1 speed, 0-255
-  byte srv2_Speed = 40;     // max speed servo 2, 0-255
-  float srv1_Acc = 0.2;     // servo acceleration 1, 0.0-1.0
-  float srv2_Acc = 0.2;     // servo acceleration 2, 0.0-1.0
-  int16_t comSensPeriod = 1;
-  int8_t plotMode = 0;
-  byte minAngle[2] = {0, 0};
-  byte maxAngle[2] = {180, 180};
-  int16_t driveTimeout = 50;
+extern struct {
+  boolean backlight;    // auto-off display backlight after idle timeout (1 - enable)
+  byte backlTime;      // Display timeout, seconds
+  byte drvSpeed;      // drive speed, 0-255
+  byte srv1_Speed;     // max servo1 speed, 0-255
+  byte srv2_Speed;     // max speed servo 2, 0-255
+  float srv1_Acc;     // servo acceleration 1, 0.0-1.0
+  float srv2_Acc;     // servo acceleration 2, 0.0-1.0
+  int16_t comSensPeriod;
+  int8_t plotMode;
+  byte minAngle[2];
+  byte maxAngle[2];
+  int16_t driveTimeout;
 } settings; //21
 
 // Channels
@@ -384,10 +373,10 @@ extern boolean manualControl;
 extern boolean manualPos;
 extern boolean controlState;
 
-const byte PIDchs[] = {0, 1, 2, 3, 7, 8, 9};
-const byte channelToPWM[] = {0, 1, 2, 3, 0, 0, 0, 4, 5, 6};  // channel to pwm
-const byte impulsePrds[] = {1, 5, 10, 15, 20, 30, 1, 2, 3, 4, 6, 8, 12, 1, 2, 3, 4, 5, 6, 7};
-const byte relayPins[] = {RELAY_0, RELAY_1, RELAY_2, RELAY_3, RELAY_4, RELAY_5, RELAY_6, SERVO_0, SERVO_1};
+extern const byte PIDchs[];
+extern const byte channelToPWM[];  // channel to pwm
+extern const byte impulsePrds[];
+extern const byte relayPins[];
 
 extern float sensorVals[8];    // sensors ...
 extern int8_t realTime[3];
@@ -460,11 +449,7 @@ extern byte curMode;
 extern const char *sensorNames[];
 
 #if (USE_PLOTS == 1)
-const char *plotNames[]  = {
-  "Min",
-  "Hour",
-  "Day",
-};
+extern const char *plotNames[];
 #endif
 
 // harmful functions
@@ -473,7 +458,7 @@ void smartArrow(bool state = true);
 
 void clearEEPROM();
 void applySettings();
-void customSet();
+void customSetup();
 void customLoop();
 
 #endif
